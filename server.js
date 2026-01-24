@@ -10,6 +10,11 @@ const DATA_FILE = path.join(__dirname, 'data.json');
 const app = express();
 app.use(cors());
 
+// Redirect root to the main file
+app.get('/', (req, res) => {
+    res.redirect('/infographic_left_handed_mice.html');
+});
+
 // Serve static files from the current directory
 app.use(express.static(__dirname));
 
