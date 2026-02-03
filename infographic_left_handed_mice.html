@@ -461,7 +461,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>Strategy Canvas</h1>
+            <h1>Yoga Socks Strategy Canvas</h1>
             <div class="controls">
                 <div id="status" class="status">
                     <span class="status-dot"></span>
@@ -491,9 +491,9 @@
 
     <div id="toast">Synchronized</div>
 
-    <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
     <script>
-        const socket = io();
+        // const socket = io(); // Disabled for standalone
 
         const structure = [
             { id: 'kp', title: 'Key Partners', desc: 'Who are your key partners and suppliers?', class: 'kp' },
@@ -507,10 +507,31 @@
             { id: 'rs', title: 'Revenue Streams', desc: 'For what value are your customers really willing to pay?', class: 'rs' }
         ];
 
-        let currentData = null;
+        // Hardcoded Data for Yoga Socks
+        let currentData = {
+            kp: ['Suppliers/Manufacturers (China)', '3PL Logistics (Cubbo/Amazon FBA)', 'Ecommerce Platforms (Shopify)'],
+            ka: ['Product Sourcing', 'Content Creation (Social/Blog)', 'Order Fulfillment', 'Customer Support'],
+            kr: ['Inventory', 'Digital Infrastructure (Web/Domain)', 'Email List'],
+            vp: ['Anti-slip & Hygiene Solution', 'Niche Availability', 'Improved Design (Grip/Material)'],
+            cr: ['Community Engagement (UGC)', 'Email Marketing (Retention)'],
+            ch: ['DTC Website', 'Marketplaces (Amazon/eBay)', 'Social Media (Instagram/TikTok)'],
+            cs: ['Women ~35', 'Suburban', 'Married w/ Kids', 'Wellness-focused'],
+            cst: ['COGS (Manufacturing/Import)', 'Platform & Hosting Fees', 'Marketing Ads', 'Transaction Fees'],
+            rs: ['Product Sales', 'Bundling (AOV Growth)', 'Subscriptions (Replenishment)']
+        };
+        
         let dragSrc = null;
         let editCtx = null;
 
+        // Initialize immediately
+        document.addEventListener('DOMContentLoaded', () => {
+             document.getElementById('status').classList.add('online');
+             document.getElementById('status-label').textContent = 'local mode';
+             buildGrid();
+             render();
+        });
+
+        /*
         // --- Socket ---
         socket.on('connect', () => {
             document.getElementById('status').classList.add('online');
@@ -533,6 +554,7 @@
             render();
             showToast();
         });
+        */
 
         // --- Logic ---
         function buildGrid() {
@@ -613,12 +635,17 @@
         }
 
         function save() {
-            socket.emit('update_canvas', currentData);
+            // socket.emit('update_canvas', currentData);
             render();
+            showToast(); // Simulate save feedback
         }
 
         function resetData() {
-            if (confirm('Reset canvas?')) socket.emit('reset_canvas');
+            if (confirm('Reset canvas?')) {
+                // Reset to empty or default
+                // socket.emit('reset_canvas');
+                location.reload(); 
+            }
         }
 
         function toggleDesc(id) {
